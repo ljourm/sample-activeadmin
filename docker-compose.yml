@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:16.2-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+  rails:
+    build:
+      context: .
+      dockerfile: ./docker/rails/Dockerfile
+    ports:
+      - "3000:3000"
+    command: bash -c "\
+      rm -f ./tmp/pids/server.pid && \
+      bundle install && \
+      rails db:prepare && \
+      rails s -b 0.0.0.0"
+    environment:
+      - APP_DATABASE_USERNAME=user
+      - APP_DATABASE_PASSWORD=password
+      - APP_DATABASE_HOST=db
+    volumes:
+      - ./:/app
+      - bundle:/usr/local/bundle
+      - app_log:/app/log
+      - app_tmp_cache:/app/tmp/cache
+    working_dir: /app
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+volumes:
+  db_data:
+  bundle:
+  app_log:
+  app_tmp_cache:
