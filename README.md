@@ -1,24 +1,21 @@
-# README
+# Sample ActiveAdmin
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 環境構成
 
-Things you may want to cover:
+- Ruby: 3.3.1
+- Ruby on Rails: 7.1.3
+- ActiveAdmin: 3.2.0
+- PostgreSQL: 16.2
 
-* Ruby version
+## 起動方法
 
-* System dependencies
+Docker環境を前提としています。
+(それ以外でも動作するとは思いますが、未確認です)
 
-* Configuration
+```sh
+# Docker起動
+$ docker-compose up
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# ActiveAdminの管理画面を表示
+$ open http://localhost:3000/admin
+```
